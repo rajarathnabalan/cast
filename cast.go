@@ -1247,3 +1247,74 @@ func jsonStringToObject(s string, v interface{}) error {
 	data := []byte(s)
 	return json.Unmarshal(data, v)
 }
+
+// StringTo casts string value to given data type. if destination data type
+// is slice, send the seperator
+func StringTo(dataType string, value string, sliceSeperator string) (interface{}, error) {
+	dataType = strings.ToLower(dataType)
+	if sliceSeperator != "" &&
+		(strings.Contains(dataType, "slice") || strings.Contains(dataType, "[]")) {
+		return To(dataType, strings.Split(value, sliceSeperator))
+	}
+	return To(dataType, value)
+}
+
+// To casts the interface to given data type
+func To(dataType string, i interface{}) (interface{}, error) {
+	switch strings.ToLower(dataType) {
+	case "bool":
+		return ToBool(i)
+	case "boolslice", "bool_slice", "[]bool":
+		return ToBoolSlice(i)
+	case "duration":
+		return ToDuration(i)
+	case "durationslice", "duration_slice", "[]duration":
+		return ToDurationSlice(i)
+	case "float32":
+		return ToFloat32(i)
+	case "float64":
+		return ToFloat64(i)
+	case "int":
+		return ToInt(i)
+	case "int8":
+		return ToInt8(i)
+	case "int16":
+		return ToInt16(i)
+	case "int32":
+		return ToInt32(i)
+	case "int64":
+		return ToInt64(i)
+	case "intslice", "int_slice", "[]int":
+		return ToIntSlice(i)
+	case "slice":
+		return ToSlice(i)
+	case "string":
+		return ToString(i)
+	case "stringmap", "string_map", "map[string]interface{}":
+		return ToStringMap(i)
+	case "stringmapbool", "string_map_bool", "map[string]bool":
+		return ToStringMapBool(i)
+	case "stringmapint", "string_map_int", "map[string]int":
+		return ToStringMapInt(i)
+	case "stringmapint64", "string_map_int64", "map[string]int64":
+		return ToStringMapInt64(i)
+	case "stringmapstring", "string_map_string", "map[string]string":
+		return ToStringMapString(i)
+	case "stringmapstringslice", "string_map_string_slice", "map[string][]string":
+		return ToStringMapStringSlice(i)
+	case "stringslice", "string_slice", "[]string":
+		return ToStringSlice(i)
+	case "time":
+		return ToTime(i)
+	case "uint":
+		return ToUint(i)
+	case "uint8":
+		return ToUint8(i)
+	case "uint16":
+		return ToUint16(i)
+	case "uint32":
+		return ToUint32(i)
+	default:
+		return nil, fmt.Errorf("unable to cast %#v to %v", i, dataType)
+	}
+}
