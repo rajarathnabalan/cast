@@ -1248,7 +1248,7 @@ func jsonStringToObject(s string, v interface{}) error {
 	return json.Unmarshal(data, v)
 }
 
-// StringTo casts string value to given data type. if destination data type
+// StringTo casts string value to given data type. If destination data type
 // is slice, send the seperator
 func StringTo(dataType string, value string, sliceSeperator string) (interface{}, error) {
 	dataType = strings.ToLower(dataType)
